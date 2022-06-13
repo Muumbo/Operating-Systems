@@ -44,9 +44,22 @@ binary: 111 000 101  (1 for permission set, 0 for not set)
 octal:   7   0   5
 ```
 
+## change mode:
+    chmod [ugo][+ or -][rwx] <file or dir> = (change mode)
+            ugo = user group other (if not specified all get selected)
+            + or - = set or unset
+            rwx = you want to set
+    chmod [octal permission] <file or dir> = is obviously a lot faster
+
+    (side note: chown [options] user:group <file or dir> will change the owning user and/or group)
+
+6) chmod -R [mode] <directorypath> = recursively change permissions for all the
+                                     files and subdirectories in the given directory
+   chmod [mode] directorypath/* = now elements in subdirectories are no longer affected
+
+**sticky bit:**
 chmod 0705 = rwx---r-x (the starting 0 is represents the sticky bit)
 
-the sticky bit has two effects:
 On files: In the past the sticky bit prevented that, a program after its process
           execution, gets deleted from RAM. This saves time in case of multiple
           executions.
@@ -57,26 +70,10 @@ On files: if all permissions are set (i.e. chmod 777) every user has full
           set only the owner of the directory can delete and rename files in
           that directory. (/tmp uses the sticky bit)
 
-5) chmod [ugo][+ or -][rwx] <file or dir> = (change mode)
-            ugo = user group other (if not specified all get selected)
-            + or - = set or unset
-            rwx = you want to set
-   chmod [octal permission] <file or dir> = is obviously a lot faster
+### umask:
+umask() sets the calling process's file mode creation mask (umask) to
+mask & 0777 (i.e., only the file permission bits of mask are used), and
+returns the previous value of the mask.
 
-   (side note: chown [options] user:group <file or dir> will change the owning user and/or
-    group)
-
-6) chmod -R [mode] <directorypath> = recursively change permissions for all the
-                                     files and subdirectories in the given directory
-   chmod [mode] directorypath/* = now elements in subdirectories are no longer affected
-
-7) umask changes the deafault permissions when creating files and directories
-   it works by subtracting the given octal numbers from the current mode and takind the result
-    if default permission = 777:
-    $ umask 022 = 7-0 7-2 7-2 = 755 (755 is now the new default permission)
-
-8) The mode 0600 will not allow interferences with other users
-    the mode of the mkfifo is created with mode & ~umask
-   Addicionally for the IPC it's recomandable to place the files in 
-   a directory that is not likely being accessed by the users
-   as it is more of a hidden comunication.
+It than creates files with the permissions that you have not set in umask
+(by performing **666 - umask** for files and **777 - umask** for directories)
