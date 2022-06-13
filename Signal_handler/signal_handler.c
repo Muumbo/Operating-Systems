@@ -35,6 +35,9 @@ int main () {
     .sa_handler = signal_handler,
     };
 
+    // Additionally initialize sa_mask, see sigaction(2) and sigsetops(3).
+    sigemptyset(&sa.sa_mask);
+
     sigaction(SIGINT, &sa, NULL); // (signal, action, old action)
     sigaction(SIGUSR1, &sa, NULL);
     sigaction(SIGTERM, &sa, NULL);
