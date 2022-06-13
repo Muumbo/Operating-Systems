@@ -10,17 +10,17 @@ drwxrwxr-x. 2 c7031162 lxusers 4096 Mar 11 19:11 game_of_life
 **the 1th argument "-" at the beginning indicates a file**
 **the 1th argument "d" at the beginning indicates a directory**
 
-**2th 4th and 3th argument are the user permissions:**__
-    **"r"** allows user to read the file__
-    **"w"** allows user to change the content of the file__
-    **"x"** allows user to execute the file__
+**2th 4th and 3th argument are the user permissions:** <br />
+    **"r"** allows user to read the file <br />
+    **"w"** allows user to change the content of the file <br />
+    **"x"** allows user to execute the file <br />
 
-**5th 6th and 7th argument are the group permissions:**__
+**5th 6th and 7th argument are the group permissions:** <br />
     **"r"** allows the content  of the directory to be listed if the x
-            attribute is also set.__
+            attribute is also set. <br />
     **"w"** allows files within the directory to be deleted, created or renamed if 
-            is set.__
-    **"x"** allows a directory to be entered.
+            is set. <br />
+    **"x"** allows a directory to be entered. <br />
 
 **8th 9th and 10th argument are the permissions for other users**
 
@@ -57,7 +57,7 @@ octal:   7   0   5
                                      files and subdirectories in the given directory
     chmod [mode] directorypath/* = now elements in subdirectories are no longer affected
 
-**sticky bit:**
+**sticky bit:** <br />
 chmod 0705 = rwx---r-x (the starting 0 is represents the sticky bit)
 ```
 On files: In the past the sticky bit prevented that, a program after its process
