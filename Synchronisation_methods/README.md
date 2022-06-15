@@ -1,6 +1,6 @@
 # Synchronisation methods
 As we are probably working with threads here's a short reminder: <br />
-#include pthread.h <br />
+**#include pthread.h** <br />
 compile with **-pthread** flag
 ## Mutex
 ```

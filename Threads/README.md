@@ -46,7 +46,7 @@ free(threadStruct.threads);
 free(threadStruct.index);
 
 ```
-**Use this loops*
+**Use this loops**
 ```
 for (int i=0; i<num_threads; i++){
     threadStruct.index[i] = i;
