@@ -1,6 +1,7 @@
 # Threads
 
 #include <pthread.h> <br />
+compile with **-pthread** flag <br />
 **Always check if functions you use in threads are threadsafe!!**
 - examples for functions that are not threadsafe (not safe      ->      safe): <br />
     - rand()      ->      rand_r()
