@@ -1,6 +1,10 @@
 # Threads
 
 #include <pthread.h>
+**Always check if functions are threadsafe!!**
+- examples for functions that are not threadsafe (not safe -> safe): <br />
+    - rand() -> rand_r()
+
 
 ### create one thread
 
@@ -23,4 +27,12 @@ pthread_join(thread, NULL)
 //pthread_join(thread,(void**) &returnVar);
 
 ```
-kk
+### Thread struct and creation loop
+
+**Use this struct:**
+```
+struct TrheadStruct {
+    pthread_t*
+    int* index;
+}
+```
