@@ -1,7 +1,7 @@
 # Threads
 
-#include <pthread.h>
-**Always check if functions are threadsafe!!**
+#include <pthread.h> <br />
+**Always check if functions you use in threads are threadsafe!!**
 - examples for functions that are not threadsafe (not safe      ->      safe): <br />
     - rand()      ->      rand_r()
 
@@ -54,10 +54,3 @@ for (size_t i=0; i<num_guests;i++){
     }
 }
 ```
-for (int i=0; i<num_threads; i++){
-        threadStruct.index[i] = i;
-        if (pthread_create(&threadStruct.thread[i], NULL, &function, &threadStruct.index[i]) != 0){
-            fprintf(stderr,"Error: pthread_create()\n");
-        return EXIT_FAILURE;
-        }
-    }
