@@ -36,8 +36,17 @@ struct trheadStruct {
     pthread_t* thread;
     int* index;
 }
+
+threadStruct.threads = (pthread_t*) malloc (sizeof(pthread_t)*num_threads);
+threadStruct.index = (int*) malloc (sizeof(int)*num_threads);
+
+    //creation loops
+
+free(threadStruct.threads);
+free(threadStruct.index);
+
 ```
-**Use this loops**
+**Use this loops*
 ```
 for (int i=0; i<num_threads; i++){
     threadStruct.index[i] = i;
@@ -50,7 +59,7 @@ for (int i=0; i<num_threads; i++){
 ```
 for (size_t i=0; i<num_guests;i++){
     if (pthread_join(threadStruct.thread[i], NULL) != 0){
-        printf("error during pthread_join()\n");
+        fprintf(stderr,"ERROR: pthread_join()\n");
         return EXIT_FAILURE;
     }
 }
