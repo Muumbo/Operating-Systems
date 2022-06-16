@@ -83,3 +83,29 @@ int main(){
 ```
 **Be aware that if during cond_signal there is nothing to be signaled yet, signal has no effect and you might miss it**
 - Use pthread_cond_timedwait!
+
+## Pthread barrier
+create a barrier that can only be passed when a certain number of threads are waiting on it.
+
+```
+pthread_barrier_t barrier;
+
+void* function(void* arg) {
+
+    //some code for threads
+
+    if (pthread_barrier_wait(&barrier) == PTHREAD_BARRIER_SERIAL_THREAD) {
+        //code for one unspecified thread after barrier releases
+    }
+
+    pthread_barrier_wait(&barrier); // all threads wait again
+}
+
+int main() {
+    pthread_barrier_init(&barrier);
+
+    //code
+
+    pthread_barrier_destroy(&barrier);
+}
+```
