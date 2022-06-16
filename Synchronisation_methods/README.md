@@ -1,4 +1,5 @@
 # Synchronisation methods
+**I am not including Atomics as they are just always a collection of thread-safe variables** <br />
 As we are probably working with threads here's a short reminder: <br />
 **#include pthread.h** <br />
 compile with **-pthread** flag
@@ -55,3 +56,30 @@ int main() {
 
 }
 ```
+## Condition variable
+Used in combination with Mutex.
+```
+pthread_cond_t cond_var;
+
+void* funktion1() {
+    LOCK_MUTEX
+        while (!condition){
+            pthread_cond_wait(&cond_var);
+        }
+    UNLOCK_MUTEX
+}
+
+void* funktion2() {
+    LOCK_MUTEX
+        pthread_cond_signal(&cond_var);
+    UNLOCK_MUTEX
+}
+
+int main(){
+    pthread_cond_init(&cond_var);
+
+    pthread_cond_destroy(&cond_var);
+}
+```
+**Be aware that if during cond_signal there is nothing to be signaled yet, signal has no effect and you might miss it**
+- Use pthread_cond_timedwait!
