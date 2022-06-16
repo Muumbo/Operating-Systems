@@ -1,5 +1,5 @@
 # Synchronisation methods
-**I am not including Atomics as they are just always a collection of thread-safe variables** <br />
+**I am not including Atomics as they are simply a collection of thread-safe variables** <br />
 As we are probably working with threads here's a short reminder: <br />
 **#include pthread.h** <br />
 compile with **-pthread** flag
