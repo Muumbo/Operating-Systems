@@ -1,6 +1,5 @@
 # Inter-Process communication
 ## Shared Memory
-## Sockets
 ## Pipes
 Data written to the write-end is buffered by the kernel
 - Return value of 0 indicates success
@@ -86,3 +85,21 @@ close(fd);
 ```
 
 ## Message Queue
+**#include <time.h>**
+**#include <mqueue.h>**
+```
+mqd_t mq_open(const char *name, int oflag, mode_t mode, struct mq_attr *attr);
+```
+Creates or opens a message queue
+- name identifies the queue
+    - For portability reasons should start with “/”
+    - Is not visible on the filesystem
+- oflag is a bit mask indicating access type and whether queue should be created or opened
+- mode indicates the permissions for the queue
+- attr specifies message queue properties //NULL for standard attributes
+    - be aware that a high value on some of the attributes might cause problems on mq_open
+**I made a short example for a client-server interaction using a mq here:** (message_queue)
+
+
+
+## Sockets (usecase: Server - Clients)
