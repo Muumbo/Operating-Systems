@@ -97,7 +97,7 @@ Creates or opens a message queue
 - oflag is a bit mask indicating access type and whether queue should be created or opened
 - mode indicates the permissions for the queue
 - attr specifies message queue properties //NULL for standard attributes
-    - be aware that a high value on some of the attributes might cause problems on mq_open <br />
+    - be aware that a high value on some of the attributes might cause problems on mq_open <br>
 I made a short example for a client-server interaction using a mq: https://github.com/Muumbo/Operating-Systems-PS-2022/tree/main/Inter-Process_communication/message_queue
 
 
