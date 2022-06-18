@@ -98,7 +98,7 @@ Creates or opens a message queue
 - mode indicates the permissions for the queue
 - attr specifies message queue properties //NULL for standard attributes
     - be aware that a high value on some of the attributes might cause problems on mq_open
-**I made a short example for a client-server interaction using a mq here:** (message_queue)
+**I made a short example for a client-server interaction using a mq here:** https://github.com/Muumbo/Operating-Systems-PS-2022/tree/main/Inter-Process_communication/message_queue
 
 
 
