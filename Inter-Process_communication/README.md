@@ -1,5 +1,92 @@
 # Inter-Process communication
 ## Shared Memory
+**#include <sys/mman.h>**
+**#include <sys/stat.h>**
+**#include <fcntl.h>**
+**Link with -ltr**
+```
+int shm_open(const char *name, int oflag, mode_t mode);
+```
+- Creates or opens a shared memory object
+- Shared memory object referred to by name
+    - For portability reasons should start with “/”
+    - Is not visible on the filesystem
+- oflag is a bit mask indicating access type and whether shared memory should be
+created or opened
+- mode indicates the permissions for the shared memory object
+- No memory is actually allocated
+- Return value is a file descriptor to the shared memory object, or −1 on failure
+```
+int ftruncate(int fd, off_t length);
+```
+
+- Truncates a file referred to by the file descriptor to a given size
+    - Can also be used to extend the size
+- Must be used to actually allocate memory for the shared memory object
+- Initializes extended memory to zero
+- Return value of 0 indicates success
+- Return value of −1 indicates failure
+```
+void *mmap(void *addr, size_t length, int prot, int flags, int fd, off_t offset);
+```
+- Maps files or devices into process memory
+- Must be used to actually map the shared memory object so it can be used
+- addr can be NULL to let the kernel choose where the shared memory should be mapped
+- length indicates the size of the shared memory to be mapped
+- prot specifies desired memory protection (i.e. read, write, execute)
+- flags should be MAP_SHARED for shared memory
+- fd should be the file descriptor of the shared memory object
+- offset indicates if the mapping should start at an offset
+- The return value is pointer to the beginning of the mapped memory
+    - Or MAP_FAILED on failure
+
+**Shared memory Writer**
+```
+const char* name = "/shared_memory";
+const int oflag = O_CREAT | O_EXCL | O_RDWR; // create, fail if exists, read+write
+const mode_t permission = S_IRUSR | S_IWUSR; // 600
+const int fd = shm_open(name, oflag, permission);
+if(fd < 0) return EXIT_FAILURE;
+
+const size_t shared_mem_size = 100;
+if(ftruncate(fd, shared_mem_size) != 0) return EXIT_FAILURE;
+
+char* shared_mem = mmap(NULL, shared_mem_size, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
+if(shared_mem == MAP_FAILED) return EXIT_FAILURE;
+
+const char message[] = "Hello World";
+
+//Some sinchronisation is required
+memcpy(shared_mem, message, sizeof(message));
+//Some sinchronisation is required
+
+munmap(shared_mem, shared_mem_size);
+close(fd);
+shm_unlink(name);
+```
+
+**Shared memory Reader**
+```
+const char* name = "/shared_memory";
+const int oflag = O_RDWR; // open read+write
+const int fd = shm_open(name, oflag, 0);
+if(fd < 0) return EXIT_FAILURE;
+
+const size_t shared_mem_size = 100;
+char* shared_mem = mmap(NULL, shared_mem_size, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
+if(shared_mem == MAP_FAILED) return EXIT_FAILURE;
+
+char buffer[shared_mem_size];
+
+//Some sinchronisation is required
+memcpy(buffer, shared_mem, shared_mem_size);
+//Some sinchronisation is required
+
+munmap(shared_mem, shared_mem_size);
+close(fd);
+
+printf("%.*s\n", (int)shared_mem_size, buffer);
+```
 ## Pipes
 Data written to the write-end is buffered by the kernel
 - Return value of 0 indicates success
